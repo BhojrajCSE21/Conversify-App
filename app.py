@@ -8,7 +8,7 @@ from langchain.embeddings import SentenceTransformerEmbeddings
 from langchain.vectorstores import Chroma 
 from langchain.llms import HuggingFacePipeline
 from langchain.chains import RetrievalQA
-from constant import CHROMA_SETTINGS
+from constants import CHROMA_SETTINGS
 
 # model and tokenizer loading 
 checkpoint = "LaMini-T5-738M"

@@ -3,7 +3,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.vectorstores import Chroma
 import os
-from constant import CHROMA_SETTINGS
+import chromadb
+from constants import CHROMA_SETTINGS
 
 persist_directory = "db"
 
@@ -21,10 +22,16 @@ def main():
     embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2") 
     
     # Creating Vector Store
-    db = Chroma.from_documents(texts, embeddings, persist_directory=persist_directory, client_settings=CHROMA_SETTINGS)
-    db.persist()
-    db = None
-
+    client = chromadb.PersistentClient(path="db_metadata_v5")
+    vector_db = Chroma.from_documents(
+        client=client, 
+        documents=texts, 
+        embedding=embeddings, 
+        persist_directory=persist_directory
+    )
+    
+    vector_db.persist()
+    vector_db=None
 
 
 if __name__ == "__main__":
